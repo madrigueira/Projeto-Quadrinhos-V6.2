@@ -1,0 +1,32 @@
+// FONTS
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap");
+
+// MAIN
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Oswald", sans-serif;
+  color: #fff;
+}
+
+// COLORS
+$white: #fff;
+$gray: #1f1f1f;
+$darkGray: #0e0e0e;
+$orange: #be6a2a;
+
+// VARIABLES
+$gap: 15px;
+
+body{
+    background-color: $darkGray;
+}
+
+.App{
+    display: flex;
+    gap: $gap;
+    padding: $gap;
+    height: 100vh;
+    min-height: 600px;
+}

@@ -1,9 +1,10 @@
 import React from 'react'
+import './index.scss'
 
-const Home = () => {
+const Home = ({publisher}) => {
   return (
-    <div>
-        <h1>Home</h1>
+    <div className='Home'>
+        <h1>{publisher}</h1>
     </div>
   )
 }

@@ -1,0 +1,50 @@
+@import "../../index.scss";
+
+.Sidebar{
+    display: flex;
+    flex-direction: column;
+    gap: $gap;
+    width: 15%;
+    min-width: 260px;
+
+    .top{
+        display: flex;
+        gap: $gap;
+        height: 17%;
+        min-height: 100px;
+
+        .logo-pq{
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            padding: 15px;
+            background-color: $gray;
+            border-radius: 15px;
+
+            img{
+                width: 100%;
+                object-fit: contain;
+            }
+        }
+
+        .logo-publisher{
+            height: 100%;
+            aspect-ratio: 1 / 1;
+            padding: 15px;
+            background-color: $orange;
+            border-radius: 15px;
+
+            img{
+                width: 100%;
+            }
+        }
+    }
+
+    .library{
+        display: flex;
+        height: 100%;
+        background-color: $gray;
+        border-radius: 15px;
+    }
+}
