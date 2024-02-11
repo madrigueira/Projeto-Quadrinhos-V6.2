@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import "./index.scss";
 import { Link } from "react-router-dom";
 import logo_pq from "../../assets/logo.png";
+import BtnPublisher from "../BtnPublisher"
+import BtnLibrary from "../BtnLibrary"
 
-const Sidebar = ({ publisher, slugs }) => {
+const Sidebar = ({ urlPublisher, qlPublishers }) => {
   // Pegar a url da página sem o final depois do / - Ex: www.exemplo.com/teste -> www.exemplo.com
   const url = window.location.href;
   const splitUrl = url.split("/");
   const mainUrl = splitUrl.slice(0, 3).join("/");
 
-  // Estado para controlar se o menu do publisher está ativo ou não
+  // Controlar se o menu do publisher está ativo ou não
   const [isPublisherMenuActive, setIsPublisherMenuActive] = useState(false);
 
   // Função para alternar o estado do menu do publisher
@@ -24,17 +26,36 @@ const Sidebar = ({ publisher, slugs }) => {
           <img src={logo_pq} alt="Projeto Quadrinhos" />
         </div>
         <div className="logo-publisher" onClick={togglePublisherMenu}>
-          <img src={`https://raw.githubusercontent.com/madrigueira/pq-content/main/${publisher}/logo.png`} />
+          <img src={`https://raw.githubusercontent.com/madrigueira/pq-content/main/${urlPublisher}/logo.png`} />
         </div>
       </div>
 
       <div className={`change-publisher ${isPublisherMenuActive ? 'active' : ''}`}>
-          {slugs.map((slug) => (
-            <Link key={slug} to={`${mainUrl}/${slug}`}><img src={`https://raw.githubusercontent.com/madrigueira/pq-content/main/${slug}/logo.png`} /></Link>
+          {qlPublishers.map((publisher) => (
+            <Link key={publisher.slug} to={`${mainUrl}/${publisher.slug}`}>
+              <BtnPublisher key={publisher.slug} slug={publisher.slug} title={publisher.title} urlPublisher={urlPublisher}/>
+            </Link>
           ))}
       </div>
 
-      <div className="library"></div>
+      <div className={`library ${isPublisherMenuActive ? 'active' : ''}`}>
+        <h4>Sua Biblioteca</h4>
+        <div className="container">
+          {/* {qlPublishers.map((publisher) => ( */}
+          <BtnLibrary />
+          <BtnLibrary />
+          <BtnLibrary />
+          <BtnLibrary />
+          <BtnLibrary />
+          <BtnLibrary />
+          <BtnLibrary />
+          <BtnLibrary />
+          <BtnLibrary />
+          <BtnLibrary />
+          <BtnLibrary />
+          {/* ))} */}
+        </div>
+      </div>
     </div>
   );
 };
