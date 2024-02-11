@@ -30,6 +30,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<App />}></Route>
         <Route path="/404" element={<NotFound />}></Route>
+        
+        {/* Rota para as páginas de editoras */}
         {possiblePublishers.slice(0, 3).map((possiblePublisher, index) => (
           <Route key={index} path={possiblePublisher} element={<App publisher={possiblePublisher} />}></Route>
         ))}
