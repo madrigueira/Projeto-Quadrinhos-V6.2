@@ -4,7 +4,8 @@ import { request } from "graphql-request";
 import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
 
-const App = ({publisher}) => {
+const App = ({ publisher }) => {
+
   // Conexão com o GraphQL
   const [graphql, setGraphql] = useState(null);
 
@@ -32,10 +33,16 @@ const App = ({publisher}) => {
     fetchGraphql();
   }, []);
 
+  // Pegar os nomes das editoras contidos no slug do publishers vindo do graphql
+  let slugs = []
+  if (graphql) {
+    slugs = graphql.map((publisher) => publisher.slug)
+  }  
+
   return (
     <div className="App">
-        <Sidebar publisher={publisher} />
-        <Home publisher={publisher}/>
+      <Sidebar publisher={publisher} slugs={slugs} />
+      <Home publisher={publisher} />
     </div>
   );
 };
