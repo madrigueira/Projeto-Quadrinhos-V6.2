@@ -1,10 +1,11 @@
 import React from 'react'
 import "./index.scss"
 
-const BtnLibrary = () => {
+const BtnLibrary = ({slug, title, urlPublisher}) => {
   return (
     <div className='BtnLibrary'>
-        <img src="https://raw.githubusercontent.com/madrigueira/pq-content/main/dc/mulher-maravilha/icon.png" />
+        <img src={`https://raw.githubusercontent.com/madrigueira/pq-content/main/${urlPublisher}/${slug}/icon.png`} />
+        <h5>{title}</h5>
     </div>
   )
 }

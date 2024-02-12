@@ -2,5 +2,30 @@
 
 .BtnLibrary{
     display: flex;
+    align-items: center;
+    gap: 7.5px;
     padding: 7.5px;
+    border-radius: 15px;
+    transition: .2s;
+    cursor: pointer;
+
+    &:hover{
+        background-color: lighten($gray, 5);
+    }
+
+    &.active{
+        background-color: $orange;
+    }
+
+    img{
+        width: 45px;
+        aspect-ratio: 1 / 1;
+    }
+
+    h5{
+        font-size: 16px;
+        font-weight: 300;
+        text-transform: uppercase;
+        text-decoration: none;
+    }
 }

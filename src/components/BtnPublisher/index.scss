@@ -3,13 +3,13 @@
 .BtnPublisher{
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 7px;
+    gap: 7.5px;
+    padding: 7.5px;
     border-radius: 15px;
     transition: .2s;
 
     &:hover{
-        background-color: lighten($gray, 2);
+        background-color: lighten($gray, 5);
     }
 
     &.active{
@@ -17,7 +17,7 @@
     }
 
     img{
-        width: 50px;
+        width: 45px;
         aspect-ratio: 1 / 1;
     }
 

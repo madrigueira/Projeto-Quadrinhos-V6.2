@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./index.scss";
 import { request } from "graphql-request";
 import Sidebar from "./components/Sidebar";
-import Home from "./pages/Home";
+import Publishers from "./pages/Publishers";
 
 const App = ({ urlPublisher }) => {
 
@@ -33,16 +33,23 @@ const App = ({ urlPublisher }) => {
     fetchGraphql();
   }, []);
 
-  // Pegar os nomes das editoras contidos no slug do publishers vindo do graphql
+  // Pegar um array contendo todos os dados vindos do grapql
   let qlPublishers = []
   if (graphql) {
     qlPublishers = graphql.map((publishers) => publishers)
-  }  
+  }
+  
+  // Pegar um array contendo apenas os comics dentro da publisher que estiver selecionada (mesmo slug da url)
+  let qlComics = []
+  if (graphql) {
+    let selectedPublisher = graphql.find(publisher => publisher.slug === urlPublisher);
+    qlComics = selectedPublisher.comics.map(comic => comic);
+  }
 
   return (
     <div className="App">
-      <Sidebar urlPublisher={urlPublisher} qlPublishers={qlPublishers} />
-      <Home urlPublisher={urlPublisher} qlPublishers={qlPublishers} />
+      <Sidebar urlPublisher={urlPublisher} qlPublishers={qlPublishers} qlComics={qlComics} />
+      <Publishers urlPublisher={urlPublisher} qlPublishers={qlPublishers} />
     </div>
   );
 };
