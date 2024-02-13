@@ -98,6 +98,10 @@
 
         .container{
             overflow: scroll;
+
+            a{
+                text-decoration: none;
+            }
         }
     }
 }

@@ -1,24 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.scss";
 import { Link } from "react-router-dom";
 import logo_pq from "../../assets/logo.png";
 import BtnPublisher from "../BtnPublisher"
 import BtnLibrary from "../BtnLibrary"
 
-const Sidebar = ({ urlPublisher, qlPublishers, qlComics }) => {
-  // Pegar a url da página sem o final depois do / - Ex: www.exemplo.com/teste -> www.exemplo.com
-  const url = window.location.href;
-  const splitUrl = url.split("/");
-  const mainUrl = splitUrl.slice(0, 3).join("/");
+const Sidebar = ({ graphql }) => {
+  // Pegar a url da página sem o path. Também pega apenas o path - Ex: www.exemplo.com/teste -> www.exemplo.com (mainUrl) | teste (urlPublisher)
+  let url = window.location.href;
+  let splitUrl = url.split("/");
+  let mainUrl = splitUrl.slice(0, 3).join("/");
+  let urlPublisher = splitUrl.slice(3, 4).join("/");
 
-  // Controlar se o menu do publisher está ativo ou não
+  // Pegar um array contendo apenas os comics dentro da publisher (editora) que estiver selecionada (mesma da url)
+  let qlComics = []
+  if (graphql) {
+    let selectedPublisher = graphql.find(publisher => publisher.slug === urlPublisher);
+    qlComics = selectedPublisher.comics.map(comic => comic);
+  }
+
+  // Controlar se o menu do publisher está ativo ou não. Função para alternar o estado do menu do publisher
   const [isPublisherMenuActive, setIsPublisherMenuActive] = useState(false);
-
-  // Função para alternar o estado do menu do publisher
   const togglePublisherMenu = () => {
     setIsPublisherMenuActive(!isPublisherMenuActive);
   };
-
+  
   return (
     <div className="Sidebar">
       <div className="top">
@@ -32,11 +38,11 @@ const Sidebar = ({ urlPublisher, qlPublishers, qlComics }) => {
 
       <div className={`change-publisher ${isPublisherMenuActive ? 'active' : ''}`}>
         <div className="container">
-          {qlPublishers.map((publisher) => (
-              <Link key={publisher.slug} to={`${mainUrl}/${publisher.slug}`}>
+          {graphql ? (graphql.map((publisher) => (
+              <Link key={publisher.slug} to={`${mainUrl}/${publisher.slug}`} onClick={togglePublisherMenu}>
                 <BtnPublisher key={publisher.slug} slug={publisher.slug} title={publisher.title} urlPublisher={urlPublisher}/>
               </Link>
-            ))}
+            ))):('')}
         </div>
       </div>
 
@@ -44,7 +50,9 @@ const Sidebar = ({ urlPublisher, qlPublishers, qlComics }) => {
         <h4>Sua Biblioteca</h4>
         <div className="container">
           {qlComics.map((comics) => (
-            <BtnLibrary key={comics.slug} slug={comics.slug} title={comics.title} urlPublisher={urlPublisher}/>
+            <Link key={comics.slug} to={`${mainUrl}/${urlPublisher}/${comics.slug}`}>
+              <BtnLibrary key={comics.slug} slug={comics.slug} title={comics.title} urlPublisher={urlPublisher}/>
+            </Link>
           ))}
         </div>
       </div>

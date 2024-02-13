@@ -19,6 +19,16 @@ $orange: #be6a2a;
 // VARIABLES
 $gap: 15px;
 
+// MIXINS
+@mixin page {
+  display: flex;
+  width: 100%;
+  min-width: 800px;
+  background-color: $gray;
+  border-radius: 15px;
+}
+
+// MAIN
 body{
     background-color: $darkGray;
 }

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./index.scss";
 import { request } from "graphql-request";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Publishers from "./pages/Publishers";
+import Comics from "./pages/Comics"
 
-const App = ({ urlPublisher }) => {
-
+const App = () => {
   // Conexão com o GraphQL
   const [graphql, setGraphql] = useState(null);
 
@@ -33,23 +34,24 @@ const App = ({ urlPublisher }) => {
     fetchGraphql();
   }, []);
 
-  // Pegar um array contendo todos os dados vindos do grapql
-  let qlPublishers = []
-  if (graphql) {
-    qlPublishers = graphql.map((publishers) => publishers)
-  }
-  
-  // Pegar um array contendo apenas os comics dentro da publisher que estiver selecionada (mesmo slug da url)
-  let qlComics = []
-  if (graphql) {
-    let selectedPublisher = graphql.find(publisher => publisher.slug === urlPublisher);
-    qlComics = selectedPublisher.comics.map(comic => comic);
-  }
-
   return (
     <div className="App">
-      <Sidebar urlPublisher={urlPublisher} qlPublishers={qlPublishers} qlComics={qlComics} />
-      <Publishers urlPublisher={urlPublisher} qlPublishers={qlPublishers} />
+      <Router>
+        <Sidebar graphql={graphql} />
+        <Routes>
+          {/* Páginas "Home" de cada publisher (editora) */}
+          {graphql && graphql.map((publisher) => (
+              <Route key={publisher.slug} path={publisher.slug} element={<Publishers publisher={publisher} />} />
+            ))}
+
+          {/* Páginas de cada comic (personagem) */}
+          {graphql && graphql.map((publisher) => (
+            publisher.comics.map((comic) => (
+              <Route key={comic.slug} path={`${publisher.slug}/${comic.slug}`} element={<Comics comic={comic} />} />
+            ))
+          ))}
+        </Routes>
+      </Router>
     </div>
   );
 };

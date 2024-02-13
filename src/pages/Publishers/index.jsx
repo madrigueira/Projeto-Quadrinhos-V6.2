@@ -1,10 +1,10 @@
 import React from "react";
 import "./index.scss";
 
-const Publishers = ({ urlPublisher }) => {
+const Publishers = ({ publisher }) => {
   return (
     <div className="Publishers">
-      <h1>{urlPublisher}</h1>
+      <h1>{publisher.title}</h1>
     </div>
   );
 };
