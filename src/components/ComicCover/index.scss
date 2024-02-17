@@ -1,0 +1,50 @@
+@import "../../index.scss";
+
+.ComicCover{
+  position: relative;
+  display: flex;
+  align-items: end;
+  width: 100%;
+  aspect-ratio: 1/1.5;
+  background-color: $darkGray;
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: .2s;
+  
+  &:hover{
+    transform:scale(1.07);
+
+    img{
+      opacity: .5;
+    }
+
+    h5{
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  img{
+    top: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 15px;
+    transition: .2s;
+  }
+
+  h5{
+    width: 100%;
+    padding: 10px;
+    background-color: darken($orange, 0);
+    font-size: 18px;
+    font-weight: 300;
+    text-align: center;
+    transform: translateY(50%);
+    opacity: 0;
+    transition: .2s;
+  }
+}
