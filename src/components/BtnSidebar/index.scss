@@ -1,13 +1,12 @@
 @import "../../index.scss";
 
-.BtnLibrary{
+.BtnSidebar{
     display: flex;
     align-items: center;
     gap: 7.5px;
     padding: 7.5px;
     border-radius: 15px;
     transition: .2s;
-    cursor: pointer;
 
     &:hover{
         background-color: lighten($gray, 5);
@@ -23,7 +22,7 @@
     }
 
     h5{
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 300;
         text-transform: uppercase;
         text-decoration: none;

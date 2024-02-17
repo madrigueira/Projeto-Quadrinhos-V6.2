@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./index.scss";
 import { Link } from "react-router-dom";
 import logo_pq from "../../assets/logo.png";
-import BtnPublisher from "../BtnPublisher"
-import BtnLibrary from "../BtnLibrary"
+import BtnSidebar from "../BtnSidebar"
 
 const Sidebar = ({ graphql }) => {
   // Pegar a url da página sem o path. Também pega apenas o path - Ex: www.exemplo.com/teste -> www.exemplo.com (mainUrl) | teste (urlPublisher)
@@ -11,6 +10,7 @@ const Sidebar = ({ graphql }) => {
   let splitUrl = url.split("/");
   let mainUrl = splitUrl.slice(0, 3).join("/");
   let urlPublisher = splitUrl.slice(3, 4).join("/");
+  let urlComic = splitUrl.slice(4, 5).join("/");
 
   // Pegar um array contendo apenas os comics dentro da publisher (editora) que estiver selecionada (mesma da url)
   let qlComics = []
@@ -20,9 +20,15 @@ const Sidebar = ({ graphql }) => {
   }
 
   // Controlar se o menu do publisher está ativo ou não. Função para alternar o estado do menu do publisher
-  const [isPublisherMenuActive, setIsPublisherMenuActive] = useState(false);
-  const togglePublisherMenu = () => {
-    setIsPublisherMenuActive(!isPublisherMenuActive);
+  const [publisherActive, setPublisherActive] = useState(false);
+  const togglePublisherActive = () => {
+    setPublisherActive(!publisherActive);
+  };
+
+  // Controlar se o botão da library está ativo ou não. Função para alternar o estado do botão da library
+  const [comicActive, setComicActive] = useState(false);
+  const toggleComicActive = () => {
+    setComicActive(!comicActive);
   };
   
   return (
@@ -31,27 +37,27 @@ const Sidebar = ({ graphql }) => {
         <div className="logo-pq">
           <img src={logo_pq} alt="Projeto Quadrinhos" />
         </div>
-        <div className="logo-publisher" onClick={togglePublisherMenu}>
+        <div className="logo-publisher" onClick={togglePublisherActive}>
           <img src={`https://raw.githubusercontent.com/madrigueira/pq-content/main/${urlPublisher}/logo.png`} />
         </div>
       </div>
 
-      <div className={`change-publisher ${isPublisherMenuActive ? 'active' : ''}`}>
+      <div className={`change-publisher ${publisherActive ? 'active' : ''}`}>
         <div className="container">
           {graphql ? (graphql.map((publisher) => (
-              <Link key={publisher.slug} to={`${mainUrl}/${publisher.slug}`} onClick={togglePublisherMenu}>
-                <BtnPublisher key={publisher.slug} slug={publisher.slug} title={publisher.title} urlPublisher={urlPublisher}/>
+              <Link key={publisher.slug} to={`${mainUrl}/${publisher.slug}`} onClick={togglePublisherActive}>
+                <BtnSidebar key={publisher.slug} slug={publisher.slug} title={publisher.title} urlPublisher={urlPublisher}/>
               </Link>
             ))):('')}
         </div>
       </div>
 
-      <div className={`library ${isPublisherMenuActive ? 'active' : ''}`}>
+      <div className={`library ${publisherActive ? 'active' : ''}`}>
         <h4>Sua Biblioteca</h4>
         <div className="container">
           {qlComics.map((comics) => (
-            <Link key={comics.slug} to={`${mainUrl}/${urlPublisher}/${comics.slug}`}>
-              <BtnLibrary key={comics.slug} slug={comics.slug} title={comics.title} urlPublisher={urlPublisher}/>
+            <Link key={comics.slug} to={`${mainUrl}/${urlPublisher}/${comics.slug}`} onClick={toggleComicActive}>
+              <BtnSidebar key={comics.slug} slug={comics.slug} title={comics.title} urlPublisher={urlPublisher} urlComic={urlComic}/>
             </Link>
           ))}
         </div>
