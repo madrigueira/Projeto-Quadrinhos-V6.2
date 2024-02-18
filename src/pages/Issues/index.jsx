@@ -39,6 +39,8 @@ const Issues = ({ serie }) => {
     getFolders();
   }, []);
 
+  const linkTo = `${mainUrl}/${urlPublisher}/${urlComic}/${serie.slug}/${urlIssue}/page-`
+
   function containerScrollTop() {
     document.getElementById('container').scrollTop = 0;
   };
@@ -46,23 +48,51 @@ const Issues = ({ serie }) => {
   setTimeout(function() {
     // Muda a opacidade para 0
     document.querySelector('.controls').classList.add('hidden');;
-}, 1000);
+  }, 1000);
 
+  const [nextBtn, setNextBtn] = useState(false)
+  const [prevBtn, setPrevBtn] = useState(false)
+
+  useEffect(() => {
+    if(Number(urlPage) === folders.length){
+      setNextBtn(true)
+    }else if(Number(urlPage) === 1){
+      setPrevBtn(true)
+    }else{
+      setNextBtn(false)
+      setPrevBtn(false)
+    }
+  }, [useLocation()])
+
+  useEffect(() => {
+    let done = 100 / folders.length
+    document.querySelector('.bar-done').style.height = done * Number(urlPage) + '%'
+  })
 
   return (
     <div className='Issues'>
       <div className="container" id='container'>
+        <div className="invisible-navigation">
+        <Link to={`${linkTo}${pageNumber - 2}`}  className={`${prevBtn ? 'active' : ''}`} onClick={containerScrollTop}>
+          <div className='prev'></div>
+        </Link>
+        <Link to={`${linkTo}${pageNumber}`}      className={`${nextBtn ? 'active' : ''}`} onClick={containerScrollTop}>
+          <div className='next'></div>
+        </Link>
+        </div>
         <img src={pageImg} />
         <div className="controls">
-          <Link to={`${mainUrl}/${urlPublisher}/${urlComic}/${serie.slug}/${urlIssue}/page-${pageNumber - 11}`} onClick={containerScrollTop}>&#10094;&#10094;</Link>
-          <Link to={`${mainUrl}/${urlPublisher}/${urlComic}/${serie.slug}/${urlIssue}/page-${pageNumber - 2}`} onClick={containerScrollTop}>&#10094;</Link>
+          <Link to={`${linkTo}${pageNumber - 2}`}  className={`${prevBtn ? 'active' : ''}`} onClick={containerScrollTop}>&#10094;</Link>
           <p>{urlPage} / {folders.length}</p> 
-          <Link to={`${mainUrl}/${urlPublisher}/${urlComic}/${serie.slug}/${urlIssue}/page-${pageNumber}`} onClick={containerScrollTop}>&#10095;</Link>
-          <Link to={`${mainUrl}/${urlPublisher}/${urlComic}/${serie.slug}/${urlIssue}/page-${pageNumber + 9}`} onClick={containerScrollTop}>&#10095;&#10095;</Link>
+          <Link to={`${linkTo}${pageNumber}`}      className={`${nextBtn ? 'active' : ''}`} onClick={containerScrollTop}>&#10095;</Link>
         </div>
       </div>
       <div className="progress-container">
-        <h1>dsd</h1>
+        <div className="progress">
+          <div className="bar">
+            <div className="bar-done"></div>
+          </div>
+        </div>
       </div>
     </div>
   )
