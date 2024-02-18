@@ -1,0 +1,62 @@
+@import "../../index.scss";
+
+.Issues{
+  @include page;
+  padding: 30px 30px 0 30px;
+
+  .container{
+    width: 90%;
+    overflow-y: auto;
+    
+    img{
+      width: 100%;
+    }
+
+    .controls{
+      position: sticky;
+      bottom: 30px;
+      left: calc(50% - 175px);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      max-width: 350px;
+      padding: 15px;
+      background-color: $darkGray;
+      border-radius: 15px;
+
+      &.hidden{
+        opacity: 0;
+        transition: 1s;
+        transition-delay: 2s;
+
+        &:hover{
+          opacity: 1;
+          transition: .4s;
+          transition-delay: 0s;
+        }
+      }
+
+      a{
+        font-size: 18px;
+        text-decoration: none;
+        transition: .2s;
+
+        &:hover{
+          color: $orange;
+        }
+      }
+
+      p{
+        padding: 2px 15px;
+        background-color: $gray;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: 200;
+      }
+    }
+  }
+
+  .progress-container{
+    width: 10%;
+  }
+}

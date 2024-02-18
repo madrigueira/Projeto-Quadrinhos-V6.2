@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Publishers from "./pages/Publishers";
 import Comics from "./pages/Comics"
+import Series from "./pages/Series";
+import Issues from "./pages/Issues";
 
 const App = () => {
   // Conexão com o GraphQL
@@ -48,6 +50,24 @@ const App = () => {
           {graphql && graphql.map((publisher) => (
             publisher.comics.map((comic) => (
               <Route key={comic.slug} path={`${publisher.slug}/${comic.slug}`} element={<Comics comic={comic} />} />
+            ))
+          ))}
+
+          {/* Páginas de cada serie (edições) */}
+          {graphql && graphql.map((publisher) => (
+            publisher.comics.map((comic) => (
+              comic.series.map((serie) => (
+                <Route key={serie.slug} path={`${publisher.slug}/${comic.slug}/${serie.slug}`} element={<Series serie={serie} />} />
+              ))
+            ))
+          ))}
+
+          {/* Páginas com as páginas das hqs (issues) */}
+          {graphql && graphql.map((publisher) => (
+            publisher.comics.map((comic) => (
+              comic.series.map((serie) => (
+                <Route key={serie.slug} path={`${publisher.slug}/${comic.slug}/${serie.slug}/:numero/:pagina`} element={<Issues serie={serie} />} />
+              ))
             ))
           ))}
         </Routes>
