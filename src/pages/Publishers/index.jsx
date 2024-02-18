@@ -1,5 +1,6 @@
 import React from "react";
 import "./index.scss";
+import { Link } from "react-router-dom";
 
 const Publishers = ({ publisher }) => {
 
@@ -12,8 +13,9 @@ const Publishers = ({ publisher }) => {
     <div className="Publishers">
       <div className="container">
         <div className="text">
-          <h1>{comic.title}</h1>
+          <h2>{comic.title}</h2>
           <h1>{serie.title}</h1>
+          <Link>Ver Mais</Link>
         </div>
         <img className="cover" src={`https://raw.githubusercontent.com/madrigueira/pq-content/main/${publisher.slug}/${comic.slug}/${serie.slug}/cover.jpg`} />
         <img className="bg" src={`https://raw.githubusercontent.com/madrigueira/pq-content/main/${publisher.slug}/${comic.slug}/banner.png`} />
