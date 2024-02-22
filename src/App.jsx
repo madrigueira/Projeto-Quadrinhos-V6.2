@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./index.scss";
 import { request } from "graphql-request";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Publishers from "./pages/Publishers";
 import Comics from "./pages/Comics"
@@ -17,15 +17,18 @@ const App = () => {
       const { publishers } = await request(
         "https://api-sa-east-1.hygraph.com/v2/clsfislto1m5n01wjeee71mak/master",
         `{
-            publishers {
+            publishers{
               title
               slug
+              updatedAt
               comics{
                 title
                 slug
+                updatedAt
                 series{
                   title
                   slug
+                  updatedAt
                 }
               }
             }
@@ -41,6 +44,9 @@ const App = () => {
       <Router>
         <Sidebar graphql={graphql} />
         <Routes>
+          {/* Rota para redirecionar automaticamente a raiz para a página da Marvel */}
+          <Route path="/" element={<Navigate to="marvel" />} />
+
           {/* Páginas "Home" de cada publisher (editora) */}
           {graphql && graphql.map((publisher) => (
               <Route key={publisher.slug} path={publisher.slug} element={<Publishers publisher={publisher} />} />

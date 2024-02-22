@@ -3,7 +3,6 @@
 .Comics {
   @include page;
   flex-direction: column;
-  overflow: auto;
 
   .container {
     padding-bottom: 30px;

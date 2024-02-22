@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.scss";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo_pq from "../../assets/logo.png";
 import BtnSidebar from "../BtnSidebar"
 
@@ -30,6 +30,11 @@ const Sidebar = ({ graphql }) => {
   const toggleComicActive = () => {
     setComicActive(!comicActive);
   };
+
+  // Assim que a URL for alterada ele atualiza o estado do Botão da Library para o mais adequado
+  useEffect(() => {
+    setComicActive(comicActive)
+  }, [useLocation()])
   
   return (
     <div className="Sidebar">
