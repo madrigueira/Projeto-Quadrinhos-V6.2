@@ -25,7 +25,7 @@ const App = () => {
                 title
                 slug
                 updatedAt
-                series{
+                series(first:100){
                   title
                   slug
                   updatedAt
