@@ -30,6 +30,21 @@ $gap: 15px;
   overflow: auto;
 }
 
+@mixin scrollBar {
+  overflow: hidden auto;
+  scrollbar-width: 2px;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+    height: 12px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: lighten($gray, 25);
+    border-radius: 15px;
+  }
+}
+
 // MAIN
 body{
     background-color: $darkGray;

@@ -64,7 +64,7 @@
         }
 
         .container{
-            overflow: hidden scroll;
+            @include scrollBar;
 
             a{
                 text-decoration: none;
@@ -97,7 +97,7 @@
         }
 
         .container{
-            overflow: scroll;
+            @include scrollBar;
 
             a{
                 text-decoration: none;

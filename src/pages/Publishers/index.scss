@@ -2,6 +2,7 @@
 
 .Publishers{
     @include page;
+    @include scrollBar;
     flex-direction: column;
     padding: 30px;
 

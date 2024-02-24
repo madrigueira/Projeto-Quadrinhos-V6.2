@@ -2,6 +2,7 @@
 
 .Comics {
   @include page;
+  @include scrollBar;
   flex-direction: column;
 
   .container {
