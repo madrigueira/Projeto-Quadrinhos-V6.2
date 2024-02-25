@@ -15,8 +15,14 @@ const Series = ({ serie }) => {
   useEffect(() => {
     const getFolders = async () => {
       try {
+        const headers = {
+          "Authorization" : `Token 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`
+        }
         const response = await axios.get(
-          `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${urlComic}/${serie.slug}`
+          `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${urlComic}/${serie.slug}`,
+          {"method": "GET",
+            "headers": headers
+          }
         );
         const data = response.data;
 
@@ -29,13 +35,20 @@ const Series = ({ serie }) => {
     getFolders();
   }, []);
 
+  // if(folders.length === 1){
+  //   folders.map((folder) => folder.name = "Volume Único")
+  // }
+
   return (
     <div className='Series'>
       <h3>{serie.title}</h3>
       <div className="container">
         {folders.map((folder) => (
           <Link key={folder.name} to={`${folder.name}/page-1`}>
-            <button>{folder.name}</button>
+            <div className="each-issue">
+              <img src={`https://raw.githubusercontent.com/madrigueira/pq-content/main/${urlPublisher}/${urlComic}/${serie.slug}/${folder.name}/1.jpg`} />
+              <p>{folders.length === 1 ? "Volume Único" : folder.name}</p>
+            </div>
           </Link>
         ))}
       </div>

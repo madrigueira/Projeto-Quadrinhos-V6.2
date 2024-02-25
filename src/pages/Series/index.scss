@@ -19,21 +19,36 @@
     gap: calc($gap * 1.5);
     grid-template-columns: repeat(6, 1fr);
 
-    button{
-      width: 100%;
-      padding: 10px 5px;
-      background-color: $darkGray;
-      border: 0;
-      border-radius: 15px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 24px;
-      font-weight: 300;
-      transition: .2s;
-      cursor: pointer;
+    a{
+      text-decoration: none;
 
-      &:hover{
-        background-color: $orange;
-        transform: scale(1.05);
+      .each-issue{
+        padding: 5px;
+        background-color: $darkGray;
+        border-radius: 15px;
+        transition: .2s;
+        cursor: pointer;
+
+        img{
+          width: 100%;
+          aspect-ratio: 1/1.2;
+          object-fit: cover;
+          object-position: top;
+          margin-bottom: 3px;
+          border-radius: 15px;
+        }
+
+        p{
+          padding-bottom: 3px;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 18px;
+          text-align: center;
+        }
+
+        &:hover{
+          background-color: $orange;
+          transform: scale(1.08);
+        }
       }
     }
   }

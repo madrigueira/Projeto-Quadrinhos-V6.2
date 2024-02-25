@@ -28,8 +28,14 @@ const Issues = ({ serie }) => {
   useEffect(() => {
     const getFolders = async () => {
       try {
+        const headers = {
+          "Authorization" : `Token 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`
+        }
         const response = await axios.get(
-          `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${urlComic}/${serie.slug}/${urlIssue}`
+          `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${urlComic}/${serie.slug}/${urlIssue}`,
+          {"method": "GET",
+            "headers": headers
+          }
         );
         const data = response.data;
 
