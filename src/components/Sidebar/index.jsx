@@ -17,6 +17,7 @@ const Sidebar = ({ graphql }) => {
   if (graphql) {
     let selectedPublisher = graphql.find(publisher => publisher.slug === urlPublisher);
     qlComics = selectedPublisher.comics.map(comic => comic);
+    qlComics = qlComics.sort((a, b) => a.title.localeCompare(b.title)) // Ordenar por ordem alfabetica
   }
 
   // Controlar se o menu do publisher está ativo ou não. Função para alternar o estado do menu do publisher

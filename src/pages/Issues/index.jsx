@@ -29,7 +29,11 @@ const Issues = ({ serie }) => {
     const getFolders = async () => {
       try {
         const response = await axios.get(
-          `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${urlComic}/${serie.slug}/${urlIssue}`,
+          `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${urlComic}/${serie.slug}/${urlIssue}`, {
+            headers: {
+              Authorization: `token ${import.meta.env.VITE_APP_GITHUB_TOKEN}`,
+            },
+          }
         );
         const data = response.data;
 
