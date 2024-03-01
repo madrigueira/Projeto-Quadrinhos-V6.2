@@ -15,13 +15,11 @@ const Series = ({ serie }) => {
   useEffect(() => {
     const getFolders = async () => {
       try {
-        const headers = {
-          "Authorization" : `Token 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`
-        }
         const response = await axios.get(
-          `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${urlComic}/${serie.slug}`,
-          {"method": "GET",
-            "headers": headers
+          `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${urlComic}/${serie.slug}`, {
+            headers: {
+              Authorization: `token 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`,
+            },
           }
         );
         const data = response.data;
