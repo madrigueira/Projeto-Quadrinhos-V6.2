@@ -18,7 +18,7 @@ const Series = ({ serie }) => {
         const response = await axios.get(
           `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${urlComic}/${serie.slug}`, {
             headers: {
-              Authorization: `token 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`,
+              Authorization: `token ${process.env.REACT_APP_GITHUB_TOKEN}`,
             },
           }
         );
