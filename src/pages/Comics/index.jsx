@@ -15,7 +15,7 @@ const Comics = ({ comic }) => {
   // Pega a url do background do comic e coloca um gradiente
   const bg = {
     backgroundImage: `
-      linear-gradient(transparent 20%, #1f1f1f 100%), 
+      linear-gradient(transparent 0%, #1f1f1f 100%), 
       url('https://raw.githubusercontent.com/madrigueira/pq-content/main/${urlPublisher}/${comic.slug}/banner.png')
     `,
   };
