@@ -18,8 +18,17 @@ const Publishers = ({ publisher }) => {
   // Agrupa todas as series (hqs) independente da comic (personagem) para exibir as mais recentes na home da publisher (editora)
   // O '...seire' está copiando todas as propriedades do objeto serie para um novo objeto, e em seguida, adicionando a propriedade comicSlug com o valor comic.slug
   // O flat é usado para juntar os arrays em um só array grandão. Ex: [[1, 2], [3, 4], [5, 6]] => [1, 2, 3, 4, 5, 6]
-  const mostRecentSeries = publisher.comics.map((comic) => comic.series.map((serie) => ({ ...serie, comicSlug: comic.slug }))).flat();
-  mostRecentSeries.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+  const allMostRecentSeries = publisher.comics.map((comic) => comic.series.map((serie) => ({ ...serie, comicSlug: comic.slug }))).flat();
+  allMostRecentSeries.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+
+  const newMostRecent = {}
+  const newArray = allMostRecentSeries.filter((serie) => {
+    if(!newMostRecent[serie.slug]){
+      newMostRecent[serie.slug] = true;
+      return true;
+    }
+    return false;
+  })
 
   return (
     <div className="Publishers">
@@ -34,7 +43,7 @@ const Publishers = ({ publisher }) => {
       </div>
       <h3>Mais Recentes</h3>
       <div className="box">
-        {mostRecentSeries.slice(0, 5).map((serie) => (
+        {newArray.slice(0, 5).map((serie) => (
           <Link key={serie.slug} to={`${serie.comicSlug}/${serie.slug}`}>
             <ComicCover key={serie.slug} slug={serie.slug} title={serie.title} urlPublisher={urlPublisher} urlComic={serie.comicSlug} />
           </Link>

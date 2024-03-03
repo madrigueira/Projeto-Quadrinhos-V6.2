@@ -53,7 +53,6 @@ const Series = ({ serie }) => {
     getFolders();
   }, []);
 
-
   return (
     <div className='Series'>
       <h3>{serie.title}</h3>

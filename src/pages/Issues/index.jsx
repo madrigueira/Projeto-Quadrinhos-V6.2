@@ -20,8 +20,43 @@ const Issues = ({ serie }) => {
     setPageNumber(Number(urlPage) + 1)
   }, [useLocation()])
 
+  const [kek, setKek] = useState(urlComic)
+
+  useEffect(() => {
+    const getFolders2 = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${urlComic}/${serie.slug}/`, {
+            headers: {
+              Authorization: `token ${import.meta.env.VITE_APP_GITHUB_TOKEN}`,
+            },
+          }
+        );
+        const data = response.data;
+
+        const filteredFiles = data.filter((item) => item.type === "file");
+        const txtFiles = filteredFiles.filter(file => file.name.endsWith('.txt'));
+        
+        if (txtFiles.length > 0) {
+          const test = txtFiles[0].name.slice(0, -4)
+          setKek(test)
+        } else {
+          console.log('Não há arquivos .txt no diretório.');
+        }
+      } catch (error) {
+        console.error("Erro ao obter as pastas:", error);
+      }
+    };
+    getFolders2();
+  }, []);
+
+
+
+
+
+
   // Página (imagem) da hq que vai estar sendo exibida na tela
-  let pageImg = `https://raw.githubusercontent.com/madrigueira/pq-content/main/${urlPublisher}/${urlComic}/${serie.slug}/${urlIssue}/${urlPage}.jpg`
+  let pageImg = `https://raw.githubusercontent.com/madrigueira/pq-content/main/${urlPublisher}/${kek}/${serie.slug}/${urlIssue}/${urlPage}.jpg`
 
   // Através da API do Github ele vê a quantidade de arquivos (no caso jpgs) dentro do caminho fornecido
   const [folders, setFolders] = useState([]);
@@ -29,7 +64,7 @@ const Issues = ({ serie }) => {
     const getFolders = async () => {
       try {
         const response = await axios.get(
-          `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${urlComic}/${serie.slug}/${urlIssue}`, {
+          `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${kek}/${serie.slug}/${urlIssue}`, {
             headers: {
               Authorization: `token ${import.meta.env.VITE_APP_GITHUB_TOKEN}`,
             },
