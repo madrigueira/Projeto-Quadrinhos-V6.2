@@ -111,9 +111,12 @@ const Issues = ({ serie }) => {
   };
 
   // Deixa o tamanho da Navegação Invisivel igual ao da page (img) da hq
-  const [invisibleNavigationHeight, setInvisibleNavigationHeight] = useState()
+  // O timeout de 0,5 segundo é para dar tempo de pegar o tamanho da página atual sendo exibida na tela (meio gambiarrento :/)
+  const [invisibleNavigationHeight, setInvisibleNavigationHeight] = useState(100)
   useEffect(() => {
-    setInvisibleNavigationHeight(document.querySelector('#pageImg').height)
+    setTimeout(function() {
+      setInvisibleNavigationHeight(document.querySelector('#pageImg').height)
+    }, 500)
   })
 
   // Pega a URL completa da página, menos o número da page
