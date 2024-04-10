@@ -20,19 +20,19 @@ const Comics = ({ comic }) => {
     `,
   };
 
+  // Barra de pesquisa dos gibis
   const [search, setSearch] = useState("")
-  let serieTitle = comic.series.map((serie) => serie)
-  let newSerie = []
-  let n = 0
+  let allSeries = comic.series.map((serie) => serie)
+  let searchedSerie = []
   if(search != undefined){
-    for (let i = 0; i < serieTitle.length; i++) {
-      if(serieTitle[i].title.toLowerCase().includes(search)){
-        newSerie[n] = serieTitle[i]
-        n++
+    for (let i = 0; i < allSeries.length; i++) {
+      if(allSeries[i].title.toLowerCase().includes(search)){
+        searchedSerie[i] = allSeries[i]
       }
     } 
   }
   
+  // Ao clicar no botão da lupa, ele muda a classe da barra de pesquisa para active (através do useState), deixando ela visível
   const [searchBarState, setSearchBarState] = useState(false)
   const toggleSearchBar = () => {
     setSearchBarState(!searchBarState)
@@ -47,7 +47,7 @@ const Comics = ({ comic }) => {
           <input type="text" className={searchBarState ? 'active' : ''} placeholder='Pesquisar...' onChange={(event) => {setSearch(event.target.value.toLowerCase())}} />
         </div>
         <div className="box">
-          {newSerie.map((serie) => (
+          {searchedSerie.map((serie) => (
             <Link key={serie.slug} to={`${mainUrl}/${urlPublisher}/${urlComic}/${serie.slug}`}>
               <ComicCover id={serie.title} key={serie.slug} slug={serie.slug} title={serie.title} urlPublisher={urlPublisher} urlComic={urlComic}/>
             </Link>

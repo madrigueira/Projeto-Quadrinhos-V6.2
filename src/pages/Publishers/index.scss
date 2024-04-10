@@ -25,12 +25,39 @@
             gap: 5px;
             z-index: 1;
 
-            h2{
-                font-family: 'Montserrat', sans-serif;
-                font-size: 20px;
-                font-weight: 700;
-                text-transform: uppercase;
-                color: $orange;
+            a{
+                width: fit-content;
+                text-decoration: none;
+                transition: .2s;
+
+                &.link-comic{
+                    h2{
+                        font-family: 'Montserrat', sans-serif;
+                        font-size: 20px;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        color: $orange;
+                        transition: .2s;
+
+                        &:hover{
+                            color: lighten($orange, 5);
+                        }
+                    }
+                }
+
+                &.link-serie{
+                    margin-top: 35px;
+                    padding: 2px 20px;
+                    background-color: $orange;
+                    border-radius: 30px;
+                    font-size: 20px;
+                    font-weight: 300;
+                    text-transform: uppercase;
+
+                    &:hover{
+                        background-color: lighten($orange, 5);
+                    }
+                }
             }
 
             h1{
@@ -39,23 +66,6 @@
                 font-weight: 400;
                 text-transform: uppercase;
                 line-height: 55px;
-            }
-
-            a{
-                width: fit-content;
-                margin-top: 35px;
-                padding: 2px 20px;
-                background-color: $orange;
-                border-radius: 30px;
-                font-size: 20px;
-                font-weight: 300;
-                text-transform: uppercase;
-                text-decoration: none;
-                transition: .2s;
-
-                &:hover{
-                    background-color: lighten($orange, 5);
-                }
             }
         }
 

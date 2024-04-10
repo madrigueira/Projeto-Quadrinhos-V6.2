@@ -20,66 +20,65 @@ const Issues = ({ serie }) => {
     setPageNumber(Number(urlPage) + 1)
   }, [useLocation()])
 
-  const [kek, setKek] = useState(urlComic)
+  // Seta a nova UrlComic. Utilizado para buscar gibis upados em diretórios de outros personagens (Comics)
+  const [newUrlComic, setNewUrlComic] = useState(urlComic);
 
-  useEffect(() => {
-    const getFolders2 = async () => {
-      try {
-        const response = await axios.get(
-          `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${urlComic}/${serie.slug}/`, {
-            headers: {
-              Authorization: `token ${import.meta.env.VITE_APP_GITHUB_TOKEN}`,
-            },
-          }
-        );
-        const data = response.data;
-
-        const filteredFiles = data.filter((item) => item.type === "file");
-        const txtFiles = filteredFiles.filter(file => file.name.endsWith('.txt'));
-        
-        if (txtFiles.length > 0) {
-          const test = txtFiles[0].name.slice(0, -4)
-          setKek(test)
-        } else {
-          console.log('Não há arquivos .txt no diretório.');
-        }
-      } catch (error) {
-        console.error("Erro ao obter as pastas:", error);
-      }
-    };
-    getFolders2();
-  }, []);
-
-
-
-
-
-
-  // Página (imagem) da hq que vai estar sendo exibida na tela
-  let pageImg = `https://raw.githubusercontent.com/madrigueira/pq-content/main/${urlPublisher}/${kek}/${serie.slug}/${urlIssue}/${urlPage}.jpg`
-
-  // Através da API do Github ele vê a quantidade de arquivos (no caso jpgs) dentro do caminho fornecido
+  // Através da API do Github ele acessa o repositório da serie escolhida para verificar se a história está mesmo dentro desse caminho ou está dentro de outro personagem (Comic)
   const [folders, setFolders] = useState([]);
   useEffect(() => {
     const getFolders = async () => {
       try {
-        const response = await axios.get(
-          `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${kek}/${serie.slug}/${urlIssue}`, {
+        let response = await axios.get(
+          `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${urlComic}/${serie.slug}`, {
             headers: {
               Authorization: `token ${import.meta.env.VITE_APP_GITHUB_TOKEN}`,
             },
           }
         );
-        const data = response.data;
+        // Pega as pastas (Series) dentro do repositório
+        let data = response.data;
+        let folders = data.filter((item) => item.type === "dir");
 
-        const filteredFolders = data.filter((item) => item.type === "file");
-        setFolders(filteredFolders);
+        // Se não houver pastas no repositório, quer dizer que elas estão dentro do repositório de outro personagem (Comic)
+        // Nesse caso ele lerá o nome do arquivo txt dentro do repositório - que é o nome do Comic onde estão as pastas daquele arquivo - e irá alterar a URL do personagem (newUrlComic) para esse nome do txt
+        // Isso é feito pois mais de um personagem (Comic) pode possuir uma Serie, assim os dois exibem essa serie sem necessáriamente ter que upa-lá mais de uma vez
+        // Dentro de cada verificação (If) ele faz outro get na api do GitHub para verificar a quantidade de arquivos dentro da pasta daquela edição para exibir a quantidade de páginas totais e a timeline de leiturda na diretia da tela
+        if (folders.length == 0) {
+          const txtFile = data.filter(file => file.name.endsWith('.txt'));
+          const nameTxtFile = txtFile[0].name.slice(0, -4)
+          setNewUrlComic(nameTxtFile)
+          response = await axios.get(
+            `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${nameTxtFile}/${serie.slug}/${urlIssue}`, {
+              headers: {
+                Authorization: `token ${import.meta.env.VITE_APP_GITHUB_TOKEN}`,
+              },
+            }
+          );
+          data = response.data;
+          folders = data.filter((item) => item.type === "file");
+        } else {
+          response = await axios.get(
+            `https://api.github.com/repos/madrigueira/pq-content/contents/${urlPublisher}/${urlComic}/${serie.slug}/${urlIssue}`, {
+              headers: {
+                Authorization: `token ${import.meta.env.VITE_APP_GITHUB_TOKEN}`,
+              },
+            }
+          );
+          data = response.data;
+          folders = data.filter((item) => item.type === "file");
+        }
+
+        // Aqui vai ser armazenado o array com todas as páginas (todos os arquivos) dentro do repositório acessado pela api (por enquanto estamos usando apenas para exibir total de páginas e a timeline de leitura)
+        setFolders(folders);
       } catch (error) {
         console.error("Erro ao obter as pastas:", error);
       }
     };
     getFolders();
   }, []);
+
+  // Página (imagem) da hq que vai estar sendo exibida na tela
+  let pageImg = `https://raw.githubusercontent.com/madrigueira/pq-content/main/${urlPublisher}/${newUrlComic}/${serie.slug}/${urlIssue}/${urlPage}.jpg`
 
   // Depois de 1 segundo, coloca a classe hidden nos controls deixando a opacity em 0
   setTimeout(function() {
