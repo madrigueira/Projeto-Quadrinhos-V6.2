@@ -14,7 +14,6 @@
     background-color: $darkGray;
     border: 0;
     border-radius: 15px;
-    transform: rotate(180deg);
     cursor: pointer;
     z-index: 111;
 
@@ -30,10 +29,8 @@
       }
     }
 
-    span{
-      padding-bottom: 5px;
-      font-size: 34px;
-      font-weight: 300;
+    svg{
+      font-size: 25px
     }
   }
 
@@ -63,24 +60,33 @@
       }
     }
     
-    img{
+    img#pageImg{
       width: 100%;
+
+      &.zoom-left{
+        width: 175%;
+      }
+
+      &.zoom-right{
+        width: 175%;
+        float: right;
+      }
     }
 
     .controls{
       position: sticky;
       bottom: 30px;
-      left: calc(50% - 175px);
+      left: calc(50% - (375px/2));
       display: flex;
       justify-content: space-around;
       align-items: center;
-      max-width: 350px;
+      max-width: 375px;
       padding: 15px;
       background-color: $darkGray;
       border-radius: 15px;
 
       &.hidden{
-        opacity: 0;
+        opacity: 1;
         transition: 1s;
         transition-delay: 2s;
 
@@ -91,14 +97,50 @@
         }
       }
 
-      a{
-        padding: 0 15px;
-        font-size: 20px;
-        text-decoration: none;
-        transition: .2s;
+      button{
+        display: flex;
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
 
-        &:hover{
-          color: $orange;
+        svg{
+          font-size: 18px;
+
+          line, circle{
+            transition: .2s;
+          }
+
+          &:hover line, &:hover circle{
+            color: $orange;
+          }
+        }
+
+        &:last-child{
+          transform: scaleX(-1);
+        }
+
+        &.active{
+            line, circle{
+              color: $orange;
+            }
+        }
+      }
+
+      a{
+        display: flex;
+        align-items: center;
+
+        svg{
+          font-size: 32px;
+          text-decoration: none;
+
+          path{
+            transition: .2s;
+          }
+
+          &:hover path{
+            color: $orange;
+          }
         }
 
         &.active{

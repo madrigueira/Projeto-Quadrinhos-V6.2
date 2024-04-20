@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react'
 import "./index.scss"
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { RiArrowLeftLine } from "react-icons/ri"; 
+import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { LuZoomIn } from "react-icons/lu";
 
 const Issues = ({ serie }) => {
   // Separa todas as rotas da URL
@@ -100,6 +104,27 @@ const Issues = ({ serie }) => {
     }
   }, [useLocation()])
 
+  // Dão zoom na image para melhorar a leitura
+  const [zoomState, setZoomState] = useState('')
+  function zoomPageLeft(){
+    const pageImg = document.querySelector("#pageImg")
+    if(pageImg.classList.contains("zoom-right")){
+      pageImg.classList.remove("zoom-right"); pageImg.classList.add("zoom-left")
+    }else{
+      pageImg.classList.toggle("zoom-left")
+    }
+    setInvisibleNavigationHeight(document.querySelector('#pageImg').height)
+  }
+  function zoomPageRight(){
+    const pageImg = document.querySelector("#pageImg")
+    if(pageImg.classList.contains("zoom-left")){
+      pageImg.classList.remove("zoom-left"); pageImg.classList.add("zoom-right")
+    }else{
+      pageImg.classList.toggle("zoom-right")
+    }
+    setInvisibleNavigationHeight(document.querySelector('#pageImg').height)
+  }
+
   // Muda o tamanho da barra de progresso da leitura de acordo com o número de páginas totais e avançadas
   useEffect(() => {
     let done = 100 / folders.length
@@ -125,7 +150,7 @@ const Issues = ({ serie }) => {
 
   return (
     <div className='Issues'>
-      <Link to={`${mainUrl}/${urlPublisher}/${urlComic}/${serie.slug}`}><button className='back-button'><span>➞</span></button></Link>
+      <Link to={`${mainUrl}/${urlPublisher}/${urlComic}/${serie.slug}`}><button className='back-button'><RiArrowLeftLine /></button></Link>
       <div className="container" id='container'>
         <div className="invisible-navigation" style={{height: `${invisibleNavigationHeight}px`}}>
           <Link to={`${AllUrlMinusPage}${pageNumber - 2}`} className={`${prevBtn ? 'active' : ''}`} onClick={containerScrollTop}>
@@ -137,9 +162,11 @@ const Issues = ({ serie }) => {
         </div>
         <img src={pageImg} id='pageImg' />
         <div className="controls">
-          <Link to={`${AllUrlMinusPage}${pageNumber - 2}`} className={`${prevBtn ? 'active' : ''}`} onClick={containerScrollTop}>&#10094;</Link>
+          <button onClick={zoomPageLeft}><LuZoomIn/></button>
+          <Link to={`${AllUrlMinusPage}${pageNumber - 2}`} className={`${prevBtn ? 'active' : ''}`} onClick={containerScrollTop}><MdOutlineKeyboardArrowLeft/></Link>
           <p>{urlPage} / {folders.length}</p> 
-          <Link to={`${AllUrlMinusPage}${pageNumber}`}     className={`${nextBtn ? 'active' : ''}`} onClick={containerScrollTop}>&#10095;</Link>
+          <Link to={`${AllUrlMinusPage}${pageNumber}`}     className={`${nextBtn ? 'active' : ''}`} onClick={containerScrollTop}><MdOutlineKeyboardArrowRight/></Link>
+          <button onClick={zoomPageRight}><LuZoomIn/></button>
         </div>
       </div>
       <div className="progress-container">
