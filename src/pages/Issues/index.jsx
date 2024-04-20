@@ -80,9 +80,10 @@ const Issues = ({ serie }) => {
   // Página (imagem) da hq que vai estar sendo exibida na tela
   let pageImg = `https://raw.githubusercontent.com/madrigueira/pq-content/main/${urlPublisher}/${newUrlComic}/${serie.slug}/${urlIssue}/${urlPage}.jpg`
 
-  // Depois de 1 segundo, coloca a classe hidden nos controls deixando a opacity em 0
+  // Depois de 1 segundo, coloca a classe hidden nos controls e no botão de voltar deixando a opacity em 0
   setTimeout(function() {
-    document.querySelector('.controls').classList.add('hidden');;
+    document.querySelector('.controls').classList.add('hidden')
+    document.querySelector('.back-button').classList.add('hidden')
   }, 1000);
 
   // Deixam os botões de navegação (do control e da tela) bloqueados de acordo com as informações pegas na API do Github
@@ -124,6 +125,7 @@ const Issues = ({ serie }) => {
 
   return (
     <div className='Issues'>
+      <Link to={`${mainUrl}/${urlPublisher}/${urlComic}/${serie.slug}`}><button className='back-button'><span>➞</span></button></Link>
       <div className="container" id='container'>
         <div className="invisible-navigation" style={{height: `${invisibleNavigationHeight}px`}}>
           <Link to={`${AllUrlMinusPage}${pageNumber - 2}`} className={`${prevBtn ? 'active' : ''}`} onClick={containerScrollTop}>

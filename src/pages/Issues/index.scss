@@ -3,6 +3,40 @@
 .Issues{
   @include page;
 
+  .back-button{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    aspect-ratio: 1/1;
+    margin: 15px 0 0 15px;
+    background-color: $darkGray;
+    border: 0;
+    border-radius: 15px;
+    transform: rotate(180deg);
+    cursor: pointer;
+    z-index: 111;
+
+    &.hidden{
+      opacity: 0;
+      transition: 1s;
+      transition-delay: 2s;
+
+      &:hover{
+        opacity: 1;
+        transition: .4s;
+        transition-delay: 0s;
+      }
+    }
+
+    span{
+      padding-bottom: 5px;
+      font-size: 34px;
+      font-weight: 300;
+    }
+  }
+
   .container{
     @include scrollBar;
     position: relative;
@@ -13,7 +47,6 @@
       position: absolute;
       display: flex;
       width: 100%;
-      // background-color: rgba(0, 255, 255, 0.671);
 
       div{
         width: 100%;
